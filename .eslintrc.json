@@ -32,6 +32,16 @@
       }
     }
   },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off",
+        "no-unused-vars": "off",
+        "import/no-unresolved": "off"
+      }
+    }
+  ],
   "rules": {
     "no-use-before-define": "off",
     "react/react-in-jsx-scope": "off",
@@ -43,6 +53,7 @@
     "import/extensions": ["error", "never", { "svg": "always" }],
     "prettier/prettier": [
       "error",
+      { "usePrettierrc": true },
       {
         "endOfLine": "auto"
       }
