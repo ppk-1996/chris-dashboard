@@ -14,8 +14,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "allowUmdGlobalAccess": true
+    "allowUmdGlobalAccess": true,
+    "types": ["vite/client", "@types/jest", "@testing-library/react", "node"]
   },
-  "include": ["./src"],
+  "include": ["./src", "jest.setup.ts"],
   "exclude": ["node_modules"]
 }
