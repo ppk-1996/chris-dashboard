@@ -2,9 +2,8 @@
   "name": "stellaris-modding-toolbox",
   "version": "0.0.0",
   "author": {
-    "name": "David Sima",
-    "email": "hello@david-sima.dev",
-    "url": "https://github.com/The24thDS"
+    "name": "ChRIS Project",
+    "url": "http://chrisproject.org/"
   },
   "private": true,
   "license": "MIT",
