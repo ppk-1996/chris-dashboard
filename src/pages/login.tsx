@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
 
@@ -39,6 +40,8 @@ const LogIn = (): ReactElement => {
         <button type="submit">Submit</button>
         <code>{error && "Incorrect Username or Password"}</code>
       </form>
+      <p>OR</p>
+      <Link to="/signup">Sign Up</Link>
     </div>
   );
 };

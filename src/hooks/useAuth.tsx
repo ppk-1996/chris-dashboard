@@ -24,7 +24,7 @@ type User = {
 
 type LoginType = (email: string, password: string) => void;
 
-type SignUpType = (email: string, name: string, password: string) => void;
+type SignUpType = (username: string, password: string, email: string) => void;
 
 type AuthContextType = {
   user: User;
@@ -57,23 +57,29 @@ export function AuthProvider({
 
   useEffect(() => {
     const token = getStorageWithExpiry("CHRIS_TOKEN");
-    if (token) {
-      getCurrentUser(token)
-        .then((newUser) => {
-          setUser(newUser);
-          setClient(
-            new Client(process.env.VITE_REACT_APP_CHRIS_UI_URL || "", { token })
-          );
-        })
-        .catch((_error) => {
-          setError(_error);
-          setLoading(false);
-          setUser(undefined);
-        })
-        .finally(() => setLoadingInitial(false));
-    } else {
-      setLoadingInitial(false);
-    }
+    const getData = async () => {
+      if (token) {
+        getCurrentUser(token)
+          .then((newUser) => {
+            setUser(newUser);
+            setClient(
+              new Client(process.env.VITE_REACT_APP_CHRIS_UI_URL || "", {
+                token,
+              })
+            );
+          })
+          .catch((_error) => {
+            setError(_error);
+            setLoading(false);
+            setUser(undefined);
+          })
+          .finally(() => setLoadingInitial(false));
+      } else {
+        setLoadingInitial(false);
+      }
+    };
+
+    getData();
   }, []);
 
   function login(email: string, password: string) {
@@ -112,22 +118,18 @@ export function AuthProvider({
   }
 
   // Make the provider update only when it should
-  const memoedValue = useMemo(
-    () => ({
-      user,
-      loading,
-      error,
-      login,
-      signUp,
-      logout,
-      client,
-    }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [user, loading, error]
-  );
+  const values = {
+    user,
+    loading,
+    error,
+    login,
+    signUp,
+    logout,
+    client,
+  };
 
   return (
-    <AuthContext.Provider value={memoedValue as AuthContextType}>
+    <AuthContext.Provider value={values as AuthContextType}>
       {!loadingInitial && children}
     </AuthContext.Provider>
   );

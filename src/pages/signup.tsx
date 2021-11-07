@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
 
@@ -18,15 +19,22 @@ const SignUp = (): ReactElement => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input defaultValue="chris" {...register("username")} />
-        <input type="email" defaultValue="chris" {...register("email")} />
-        <input
-          defaultValue="chris1234"
-          type="password"
-          {...register("password")}
-        />
+        <label htmlFor="username">
+          Username
+          <input type="text" {...register("username")} />
+        </label>
+        <label htmlFor="email">
+          Email
+          <input type="email" {...register("email")} />
+        </label>
+        <label htmlFor="password">
+          Password
+          <input type="password" {...register("password")} />
+        </label>
         <button type="submit">Submit</button>
       </form>
+      <p>OR</p>
+      <Link to="/login">Log In</Link>
     </div>
   );
 };
