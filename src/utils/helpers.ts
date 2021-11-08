@@ -33,3 +33,6 @@ export function getStorageWithExpiry(key: string): string | null {
   }
   return null;
 }
+
+export const getTotalPages = (total = 1, limit: number): number =>
+  Math.ceil(total / limit);

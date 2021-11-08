@@ -3,7 +3,6 @@ import {
   ReactNode,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import { useHistory, useLocation } from "react-router-dom";
@@ -56,6 +55,7 @@ export function AuthProvider({
   }, [location.pathname]);
 
   useEffect(() => {
+    setLoadingInitial(true);
     const token = getStorageWithExpiry("CHRIS_TOKEN");
     const getData = async () => {
       if (token) {
@@ -93,6 +93,11 @@ export function AuthProvider({
         setStorageWithExpiry("CHRIS_TOKEN", token, 2000 * 1000);
         getCurrentUser(token).then((newUser) => {
           setUser(newUser);
+          setClient(
+            new Client(process.env.VITE_REACT_APP_CHRIS_UI_URL || "", {
+              token,
+            })
+          );
           history.push("/");
         });
       })
@@ -105,11 +110,25 @@ export function AuthProvider({
 
     createUser(username, password, email)
       .then((newUser) => {
-        setUser(newUser);
-        history.push("/");
+        Client.getAuthToken(
+          process.env.VITE_REACT_APP_CHRIS_UI_AUTH_URL || "",
+          newUser.auth.username,
+          newUser.auth.password
+        ).then((token) => {
+          setStorageWithExpiry("CHRIS_TOKEN", token, 2000 * 1000);
+          setUser(newUser.user);
+          setClient(
+            new Client(process.env.VITE_REACT_APP_CHRIS_UI_URL || "", {
+              token,
+            })
+          );
+          history.push("/");
+        });
       })
       .catch((_error) => setError(_error))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   function logout() {

@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Switch } from "react-router";
 
 import Wrapper from "../components/Layout";
-import Nav from "../components/Navigation";
 import { PrivateRoute, PublicRoute } from "../components/Routes";
 
 import Analyses from "./analyses";
